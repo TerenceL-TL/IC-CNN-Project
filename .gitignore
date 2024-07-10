@@ -1,0 +1,7 @@
+.conda
+.vscode
+files
+*.npy
+*.gz
+*.h5
+*.pdf
