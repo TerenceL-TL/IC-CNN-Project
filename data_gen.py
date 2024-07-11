@@ -36,7 +36,7 @@ def split_df(df):
 
 def create_gens(df, aug_dict):
     img_size = (240, 240)
-    batch_size = 1
+    batch_size = 32
 
 
     img_gen = ImageDataGenerator(**aug_dict)
