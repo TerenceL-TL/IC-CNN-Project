@@ -25,8 +25,10 @@ def nii_to_npy(nii_file, npy_file):
     # Save each slice as a separate .npy file
     for i in range(num_slices):
         slice_data = nii_data[:, :, i]
-        jpg_file_slice = npy_file + f'_slice_{i}.jpg'
-        img = I
+        jpg_file_slice = npy_file + f'_slice_{i}.png'
+        slice_data = slice_data.astype(np.uint8)
+        img = IM.fromarray(slice_data)
+        img.save(jpg_file_slice)
         # np.save(npy_file_slice, slice_data)
     return()
 
