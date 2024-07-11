@@ -36,7 +36,7 @@ def split_df(df):
 
 def create_gens(df, aug_dict):
     img_size = (240, 240)
-    batch_size = 32
+    batch_size = 16
 
 
     img_gen = ImageDataGenerator(**aug_dict)
@@ -79,26 +79,24 @@ def show_images(images, masks):
     plt.tight_layout()
     plt.show()
 
-data_dir = 'Train/'
+def init_data(data_dir):
+    df = create_df(data_dir)
+    train_df, valid_df, test_df = split_df(df)
 
-df = create_df(data_dir)
-train_df, valid_df, test_df = split_df(df)
-
-print(train_df)
-print(valid_df)
-print(test_df)
+    # print(train_df)
+    # print(valid_df)
+    # print(test_df)
 
 
-tr_aug_dict = dict(rotation_range=0.2,
-                            width_shift_range=0.05,
-                            height_shift_range=0.05,
-                            shear_range=0.05,
-                            zoom_range=0.05,
-                            horizontal_flip=True,
-                            fill_mode='nearest')
+    tr_aug_dict = dict(rotation_range=0.2,
+                                width_shift_range=0.05,
+                                height_shift_range=0.05,
+                                shear_range=0.05,
+                                zoom_range=0.05,
+                                horizontal_flip=True,
+                                fill_mode='nearest')
 
-train_gen = create_gens(train_df, aug_dict=tr_aug_dict)
-valid_gen = create_gens(valid_df, aug_dict={})
-test_gen = create_gens(test_df, aug_dict={})
-
-# show_images(list(train_df['images_paths']), list(train_df['masks_paths']))
+    train_gen = create_gens(train_df, aug_dict=tr_aug_dict)
+    valid_gen = create_gens(valid_df, aug_dict={})
+    test_gen = create_gens(test_df, aug_dict={})
+    return train_gen, valid_gen, test_gen, train_df, valid_df, test_df

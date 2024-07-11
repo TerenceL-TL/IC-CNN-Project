@@ -1,6 +1,7 @@
 from models import *
 from lost import *
 from data_gen import *
+from matplotlib.pyplot import *
 from keras.optimizers import Adam, Adamax
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 
@@ -14,13 +15,17 @@ if gpus:
 
 
 model = unet()
-model.compile(Adamax(learning_rate= 0.001), loss= 'binary_crossentropy', metrics= ['accuracy', iou_coef, dice_coef])
+# model = load_model('unet.hdf5')
 
+model.compile(Adamax(learning_rate= 0.001), loss= 'binary_crossentropy', metrics= ['accuracy', iou_coef, dice_coef])
 model.summary()
 
-epochs = 120
-batch_size = 1
+data_dir = 'Train/'
+epochs = 10
+batch_size = 16
 callbacks = [ModelCheckpoint('unet.hdf5', verbose=0, save_best_only=True)]
+
+train_gen, valid_gen, test_gen, train_df, valid_df, test_df = init_data(data_dir)
 
 history = model.fit(train_gen,
                     steps_per_epoch=len(train_df) / batch_size,
