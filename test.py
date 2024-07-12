@@ -19,16 +19,6 @@ train_gen, valid_gen, test_gen, train_df, valid_df, test_df = init_data(data_dir
 
 predictions = model.predict(test_gen, steps=len(test_df) / batch_size, verbose=1)
 
-# Assuming you have a batch size of 32 and want to inspect the first batch of predictions
 for i in range(batch_size):
-    # Visualize the predictions
-    prediction = predictions[i]
-    # Process the prediction as needed (e.g., thresholding, decoding, etc.)
-
-    binary_mask = (prediction > 0.5).astype(np.uint8)
-    img = np.array(binary_mask)
-
-    # Display the binary mask
-    plt.imshow(img)
-    plt.title(f'Prediction {i + 1}')
+    plt.imshow(predictions[i])
     plt.show()

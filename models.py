@@ -9,14 +9,15 @@ def unet(input_size=(240, 240, 1)):
     inputs = Input(input_size)
 
     # Encoder
-    # conv1 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(inputs)
-    # bn1 = Activation("relu")(conv1)
-    # conv1 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(bn1)
-    # bn1 = BatchNormalization(axis=3)(conv1)
-    # bn1 = Activation("relu")(bn1)
-    # pool1 = MaxPooling2D(pool_size=(2, 2))(bn1)
 
-    conv2 = Conv2D(filters=32, kernel_size=(3, 3), padding="same")(inputs)
+    conv1 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(inputs)
+    bn1 = Activation("relu")(conv1)
+    conv1 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(bn1)
+    bn1 = BatchNormalization(axis=3)(conv1)
+    bn1 = Activation("relu")(bn1)
+    pool1 = MaxPooling2D(pool_size=(2, 2))(bn1)
+
+    conv2 = Conv2D(filters=32, kernel_size=(3, 3), padding="same")(pool1)
     bn2 = Activation("relu")(conv2)
     conv2 = Conv2D(filters=32, kernel_size=(3, 3), padding="same")(bn2)
     bn2 = BatchNormalization(axis=3)(conv2)
@@ -65,13 +66,14 @@ def unet(input_size=(240, 240, 1)):
     bn8 = BatchNormalization(axis=3)(conv8)
     bn8 = Activation("relu")(bn8)
 
-    # up9 = concatenate([Conv2DTranspose(16, kernel_size=(2, 2), strides=(2, 2), padding="same")(bn8), conv1], axis=3)
-    # conv9 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(up9)
-    # bn9 = Activation("relu")(conv9)
-    # conv9 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(bn9)
-    # bn9 = BatchNormalization(axis=3)(conv9)
-    # bn9 = Activation("relu")(bn9)
+    up9 = concatenate([Conv2DTranspose(16, kernel_size=(2, 2), strides=(2, 2), padding="same")(bn8), conv1], axis=3)
+    conv9 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(up9)
+    bn9 = Activation("relu")(conv9)
+    conv9 = Conv2D(filters=16, kernel_size=(3, 3), padding="same")(bn9)
+    bn9 = BatchNormalization(axis=3)(conv9)
+    bn9 = Activation("relu")(bn9)
 
-    conv10 = Conv2D(filters=1, kernel_size=(1, 1), activation="sigmoid")(bn8)
+    conv10 = Conv2D(filters=1, kernel_size=(1, 1), activation="sigmoid")(bn9)
 
     return Model(inputs=[inputs], outputs=[conv10])
+

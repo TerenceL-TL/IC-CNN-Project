@@ -15,21 +15,29 @@ from skimage.transform import resize
 from sklearn.model_selection import train_test_split
 from skimage.io import imread, imshow, concatenate_images
 
-def nii_to_npy(nii_file, npy_file):
-    nii_img = nib.load(nii_file)
+def nii_to_npy(nii_pla_file, nii_seg_file, npy_file, idx):
+    nii_img_pla = nib.load(nii_pla_file).get_fdata()
+    nii_img_seg = nib.load(nii_seg_file).get_fdata()
     
-    nii_data = nii_img.get_fdata()
-
-    num_slices = nii_data.shape[2]
+    num_slices = nii_img_pla.shape[2]
     
     # Save each slice as a separate .npy file
     for i in range(num_slices):
-        slice_data = nii_data[:, :, i]
-        npy_file_slice = npy_file + f'_slice_{i}.npy'
-        # slice_data = slice_data.astype(np.uint8)
-        # img = IM.fromarray(slice_data)
-        # img.save(jpg_file_slice)
-        np.save(npy_file_slice, slice_data)
+        slice_data_pla = nii_img_pla[:, :, i]
+        slice_data_seg = nii_img_seg[:, :, i]
+        if np.all(slice_data_pla == 0):
+            continue
+        slice_data_seg *= 255
+
+        slice_data_pla = slice_data_pla.astype(np.uint8)
+        slice_data_seg = slice_data_seg.astype(np.uint8)
+
+        pla_file_slice = os.path.join(npy_file, 'image', idx + f'_slice_{i}.png')
+        seg_file_slice = os.path.join(npy_file, 'masks', idx + f'_slice_{i}.png')
+        img_pla = IM.fromarray(slice_data_pla)
+        img_seg = IM.fromarray(slice_data_seg)
+        img_pla.save(pla_file_slice)
+        img_seg.save(seg_file_slice)
     return()
 
 # path related
@@ -44,8 +52,7 @@ num = len(dirs)
 for (n, file_name) in enumerate(dirs):
     nii_file_pla = os.path.join(train_path, file_name, file_name + "_fla.nii.gz")
     nii_file_seg = os.path.join(train_path, file_name, file_name + "_seg.nii.gz")
-    nii_to_npy(nii_file_pla, os.path.join('Train', 'image', file_name))
-    nii_to_npy(nii_file_seg, os.path.join('Train', 'masks', file_name))
+    nii_to_npy(nii_file_pla, nii_file_seg, os.path.join('Train'), file_name)
 
 
 
