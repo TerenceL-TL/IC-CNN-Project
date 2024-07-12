@@ -7,3 +7,4 @@ files
 *.pdf
 *.jpg
 *.png
+__pycache__
