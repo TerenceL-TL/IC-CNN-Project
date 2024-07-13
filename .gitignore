@@ -3,7 +3,7 @@
 files
 *.npy
 *.gz
-*.h5
+# *.h5
 *.pdf
 *.jpg
 *.png

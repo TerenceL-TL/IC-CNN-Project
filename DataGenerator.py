@@ -1,9 +1,13 @@
 import os
+import time
 import numpy as np
 import nibabel as nib
 from scipy.ndimage import zoom
 import tensorflow as tf
 from Augmentation import *
+# from test import show_predictions
+
+
 
 class DataGenerator(tf.keras.utils.Sequence):
     'Generates data for Keras'
@@ -60,5 +64,4 @@ class DataGenerator(tf.keras.utils.Sequence):
             # print(img.shape)
             X[i,...] = img
             y[i,...] = msk
-
         return X, y

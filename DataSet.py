@@ -33,6 +33,8 @@ def nii_to_npy(nii_pla_file, nii_seg_file, npy_file, idx):
 
         pla_file_slice = os.path.join(npy_file, 'image', idx + f'_slice_{i}.npy')
         seg_file_slice = os.path.join(npy_file, 'masks', idx + f'_slice_{i}.npy')
+        slice_data_pla = slice_data_pla.astype(np.uint8)
+        slice_data_seg = slice_data_seg.astype(np.uint8)
         np.save(pla_file_slice, slice_data_pla)
         np.save(seg_file_slice, slice_data_seg)
         # img_pla = IM.fromarray(slice_data_pla)

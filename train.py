@@ -21,10 +21,10 @@ if gpus:
         print(e)
 
 model = unet()
-model.compile(Adamax(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy', iou_coef, dice_coef])
+model.compile(Adamax(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy', dice_coef, iou_coef])
 
 # with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
-#     model = load_model("model_114514.h5")
+#     model = load_model("model_right_1.h5")
 
 model.summary()
 
@@ -42,8 +42,8 @@ train_dir = 'Train/'
 valid_dir = 'Val/'
 
 tr_aug_dict = dict(rotation_range=180.0,
-                    width_shift_range=0.05,
-                    height_shift_range=0.05,
+                    width_shift_range=0.3,
+                    height_shift_range=0.3,
                     shear_range=0.05,
                     zoom_range=0.05,
                     horizontal_flip=True,
@@ -55,12 +55,12 @@ img_size = (240,240)
 
 history = model.fit(train_generator,
                     epochs=epochs,
-                    verbose=1,
+                    # verbose=1,
                     callbacks=callbacks,
                     validation_data=validation_generator,
                     )
 
-model.save("model_right_1.h5")
+model.save("model_right_3.h5")
 
 # predicts = model.predict(test_gen, steps=len(test_df) / batch_size, verbose=1)
 
