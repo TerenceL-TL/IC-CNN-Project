@@ -18,7 +18,7 @@ valid_list = os.listdir(valid_pla_dir)
 
 valid_dir = 'Val/'
 
-model_path = "model_right_3.h5" 
+model_path = "model_right_4.h5" 
 
 with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
     model = load_model(model_path)

@@ -25,8 +25,8 @@ def nii_to_npy(nii_pla_file, nii_seg_file, npy_file, idx):
     for i in range(num_slices):
         slice_data_pla = nii_img_pla[:, :, i]
         slice_data_seg = nii_img_seg[:, :, i]
-        if np.all(slice_data_pla == 0):
-            continue
+        # if np.all(slice_data_pla == 0):
+            # continue
 
         # slice_data_pla = np.repeat(slice_data_pla[:, :, np.newaxis], 3, axis=2)
         # slice_data_seg = np.repeat(slice_data_seg[:, :, np.newaxis], 3, axis=2) # channels = 3

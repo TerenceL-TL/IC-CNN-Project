@@ -20,15 +20,15 @@ if gpus:
     except RuntimeError as e:
         print(e)
 
-model = unet()
-model.compile(Adamax(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy', dice_coef, iou_coef])
+# model = unet()
+# model.compile(Adamax(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy', dice_coef, iou_coef])
 
-# with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
-#     model = load_model("model_right_1.h5")
+with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
+    model = load_model("model_right_4.h5")
 
 model.summary()
 
-epochs = 40
+epochs = 50
 batch_size = 32
 callbacks = [ModelCheckpoint('unet.hdf5', verbose=1, save_best_only=True)]
 
@@ -42,8 +42,8 @@ train_dir = 'Train/'
 valid_dir = 'Val/'
 
 tr_aug_dict = dict(rotation_range=180.0,
-                    width_shift_range=0.3,
-                    height_shift_range=0.3,
+                    width_shift_range=0.5,
+                    height_shift_range=0.5,
                     shear_range=0.05,
                     zoom_range=0.05,
                     horizontal_flip=True,
@@ -60,7 +60,7 @@ history = model.fit(train_generator,
                     validation_data=validation_generator,
                     )
 
-model.save("model_right_3.h5")
+model.save("model_right_5.h5")
 
 # predicts = model.predict(test_gen, steps=len(test_df) / batch_size, verbose=1)
 
