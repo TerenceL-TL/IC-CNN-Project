@@ -24,7 +24,7 @@ if gpus:
 # model.compile(Adamax(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy', dice_coef, iou_coef])
 
 with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
-    model = load_model("model_right_4.h5")
+    model = load_model("model_right_5.h5")
 
 model.summary()
 
@@ -60,7 +60,7 @@ history = model.fit(train_generator,
                     validation_data=validation_generator,
                     )
 
-model.save("model_right_5.h5")
+model.save("model_right_6.h5")
 
 # predicts = model.predict(test_gen, steps=len(test_df) / batch_size, verbose=1)
 
