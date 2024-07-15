@@ -25,7 +25,7 @@ with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
 
 validation_generator = DataGenerator(valid_dir, valid_list, batch_size=batch_size)
 
-test_sets, test_masks = validation_generator.__getitem__(1)
+test_sets, test_masks = validation_generator.__getitem__(3)
 
 preds = model.predict(test_sets)
 
