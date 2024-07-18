@@ -6,5 +6,5 @@ files
 # *.h5
 *.pdf
 *.jpg
-*.png
+# *.png
 __pycache__
