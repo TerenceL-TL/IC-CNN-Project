@@ -12,13 +12,13 @@ from Augmentation import *
 
 batch_size = 32
 
-valid_pla_dir = os.path.join('Val', 'image')
+valid_pla_dir = os.path.join('Val/3', 'image')
 
 valid_list = os.listdir(valid_pla_dir)
 
-valid_dir = 'Val/'
+valid_dir = 'Val/3'
 
-model_path = "model_right_6.h5" 
+model_path = "final_model.h5" 
 
 with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
     model = load_model(model_path)
@@ -27,25 +27,27 @@ validation_generator = DataGenerator(valid_dir, valid_list, batch_size=batch_siz
 
 test_sets, test_masks = validation_generator.__getitem__(3)
 
-preds = model.predict(test_sets)
+model.evaluate(validation_generator)
 
-for i in range(batch_size):
-    test_imag = test_sets[i]
-    test_mask = test_masks[i]
-    pred_mask = preds[i]
+# preds = model.predict(test_sets)
 
-    plt.figure()
+# for i in range(batch_size):
+#     test_imag = test_sets[i]
+#     test_mask = test_masks[i]
+#     pred_mask = preds[i]
 
-    plt.subplot(1, 3, 1)
-    plt.imshow(test_imag)
-    plt.title("test_imag")
+#     plt.figure()
 
-    plt.subplot(1, 3, 2)
-    plt.imshow(test_mask)
-    plt.title("test_mask")
+#     plt.subplot(1, 3, 1)
+#     plt.imshow(test_imag)
+#     plt.title("test_imag")
 
-    plt.subplot(1, 3, 3)
-    plt.imshow(pred_mask)
-    plt.title("pred_mask")
+#     plt.subplot(1, 3, 2)
+#     plt.imshow(test_mask)
+#     plt.title("test_mask")
 
-    plt.show()
+#     plt.subplot(1, 3, 3)
+#     plt.imshow(pred_mask)
+#     plt.title("pred_mask")
+
+#     plt.show()
