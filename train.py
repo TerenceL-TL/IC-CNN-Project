@@ -24,7 +24,7 @@ if gpus:
 # model.compile(Adamax(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy', dice_coef, iou_coef])
 
 with custom_object_scope({'iou_coef': iou_coef, 'dice_coef': dice_coef}):
-    model = load_model("model_right_5.h5")
+    model = load_model("final_model.h5")
 
 model.summary()
 
@@ -32,14 +32,14 @@ epochs = 50
 batch_size = 32
 callbacks = [ModelCheckpoint('unet.hdf5', verbose=1, save_best_only=True)]
 
-train_pla_dir = os.path.join('Train', 'image')
-valid_pla_dir = os.path.join('Val', 'image')
+train_pla_dir = os.path.join('Train/3', 'image')
+valid_pla_dir = os.path.join('Val/3', 'image')
 
 train_list = os.listdir(train_pla_dir)
 valid_list = os.listdir(valid_pla_dir)
 
-train_dir = 'Train/'
-valid_dir = 'Val/'
+train_dir = 'Train/3'
+valid_dir = 'Val/3'
 
 tr_aug_dict = dict(rotation_range=180.0,
                     width_shift_range=0.5,
@@ -60,7 +60,7 @@ history = model.fit(train_generator,
                     validation_data=validation_generator,
                     )
 
-model.save("model_right_6.h5")
+model.save("final_model.h5")
 
 # predicts = model.predict(test_gen, steps=len(test_df) / batch_size, verbose=1)
 
